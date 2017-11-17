@@ -34,13 +34,11 @@ class Domain(Document):
 	def remove_domain(self):
 		'''Unset domain settings'''
 		self.setup_data()
-
-		if self.data.restricted_roles:
-			for role_name in self.data.restricted_roles:
-				if frappe.db.exists('Role', role_name):
-					role = frappe.get_doc('Role', role_name)
-					role.disabled = 1
-					role.save()
+		for role_name in self.data.restricted_roles:
+			if frappe.db.exists('Role', role_name):
+				role = frappe.get_doc('Role', role_name)
+				role.disabled = 1
+				role.save()
 
 		if self.data.custom_fields:
 			for doctype in self.data.custom_fields:
